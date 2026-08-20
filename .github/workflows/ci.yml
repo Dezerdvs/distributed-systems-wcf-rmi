@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: nuget/setup-nuget@v2
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Restore & build each project
+        shell: pwsh
+        run: |
+          $failed = $false
+          Get-ChildItem -Recurse -Filter *.csproj | ForEach-Object {
+            Write-Host "=== $($_.Name) ==="
+            nuget restore $_.FullName -SolutionDirectory $_.DirectoryName
+            msbuild $_.FullName /p:Configuration=Debug /verbosity:minimal
+            if ($LASTEXITCODE -ne 0) { $script:failed = $true }
+          }
+          if ($failed) { exit 1 }

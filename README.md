@@ -1,5 +1,7 @@
 # WCF Remote Calculation Service (RPC-style Chat/Compute Client)
 
+![CI](https://github.com/Dezerdvs/distributed-systems-wcf-rmi/actions/workflows/ci.yml/badge.svg)
+
 A client-server distributed application built with **Windows Communication Foundation (WCF)** — .NET's framework for building remote procedure call (RPC) style services, conceptually equivalent to Java RMI.
 
 ## What it does
